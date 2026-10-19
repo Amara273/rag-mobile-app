@@ -1,0 +1,51 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fastapi_backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    # No source volume mount — code is baked into the image
+    networks:
+      - proxy_net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:8000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build:
+      context: ./mobile
+      dockerfile: Dockerfile
+      args:
+        # Your DigitalOcean droplet IP or domain — must be set before building
+        API_BASE_URL: ${API_BASE_URL}
+    container_name: flutter_frontend
+    restart: unless-stopped
+    networks:
+      - proxy_net
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: nginx_proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+      frontend:
+        condition: service_started
+    networks:
+      - proxy_net
+
+networks:
+  proxy_net:
+    driver: bridge

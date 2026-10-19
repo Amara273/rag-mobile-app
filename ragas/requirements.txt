@@ -1,0 +1,12 @@
+# RAGAS Framework
+ragas>=0.1.0
+
+# LLM and Embeddings
+langchain>=0.1.0
+langchain-openai>=0.1.0
+
+# Data handling
+datasets>=2.0.0
+
+# Utilities
+python-dotenv>=1.0.0

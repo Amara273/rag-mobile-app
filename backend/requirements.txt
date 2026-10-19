@@ -1,0 +1,39 @@
+# Web Framework
+fastapi
+uvicorn[standard]
+
+# Database
+sqlalchemy
+psycopg2-binary
+
+# Authentication
+python-jose[cryptography]
+passlib[bcrypt]
+bcrypt
+python-multipart
+
+# Environment
+python-dotenv
+
+# Validation
+pydantic[email]
+email-validator
+
+# AI Models
+vertexai
+nudenet
+SpeechRecognition
+
+# RAGAS Framework
+ragas>=0.1.0
+
+# LLM and Embeddings
+langchain>=0.1.0
+langchain-openai>=0.1.0
+langchain_google_vertexai
+
+# Data handling
+datasets>=2.0.0
+
+# Utilities
+python-dotenv>=1.0.0
